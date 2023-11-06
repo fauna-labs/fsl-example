@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,6 +20,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm install
+    - name: Install Fauna Shell
+      run: npm install -g fauna-shell@beta
     - name: Run tests
       run: npm test
       env:

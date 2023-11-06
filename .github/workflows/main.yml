@@ -25,6 +25,15 @@ jobs:
 
     - name: Install Fauna Shell 
       run : npm install -g fauna-shell@beta
+    
+    - name: Create .fauna-shell config
+      run: |
+        echo "[default]
+        default=cloud-global
+
+        [endpoint.cloud-global]
+        secret=fnAFSEGcoFACQmVEv6S0k1x9UcUGBImZCEhRDUyI" > ~/.fauna-shell
+
 
     - name: Push schema to Test Database
       run: fauna schema push --stack testd --force

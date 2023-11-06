@@ -22,4 +22,5 @@ jobs:
       run: npm install
     - name: Run tests
       run: npm test
-      # If tests fail, the workflow will indicate a failure
+      env:
+        FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}

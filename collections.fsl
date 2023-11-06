@@ -5,3 +5,8 @@ collection User {
         terms [.email]
     }
 }
+
+@role(server)
+function usersWithSameAddress (address) {
+  User.where(.address == address)
+}

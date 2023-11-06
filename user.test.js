@@ -1,4 +1,4 @@
-import 'dotenv/config'
+require('dotenv').config(); 
 import { Client, fql } from 'fauna'
 import { addUser } from './users.js'
 

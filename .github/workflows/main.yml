@@ -23,7 +23,7 @@ jobs:
     - name: Install Fauna Shell
       run: npm install -g fauna-shell@beta
     - name: Create database for tests
-      run: fauna create-database test-database
+      run: fauna create-database test-database --secret ${{ secrets.FAUNA_SECRET_KEY }}
     - name: Run tests
       run: npm test
       env:

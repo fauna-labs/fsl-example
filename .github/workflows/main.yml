@@ -7,6 +7,8 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}
 
     strategy:
       matrix:
@@ -32,6 +34,9 @@ jobs:
     - name: Push schema to Test Database
       run: fauna schema push --stack testd --force
 
+    - name: Set environment variable
+      run: export FAUNA_SECRET_KEY=${{ secrets.FAUNA_SECRET_KEY }}
+
     - name: Run tests
       run: npm test
     
@@ -40,4 +45,3 @@ jobs:
 
       env:
         FAUNA_SHELL_SECRET_KEY: ${{ secrets.FAUNA_SHELL_SECRET_KEY }}
-        FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}

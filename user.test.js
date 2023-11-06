@@ -1,9 +1,9 @@
-require('dotenv').config(); 
+import 'dotenv/config'
 import { Client, fql } from 'fauna'
 import { addUser } from './users.js'
 
 // Initialize the Fauna client
-console.log('Where is my key +', process.env.FAUNA_SECRET_KEY)
+console.log('Where is my key ==>', process.env.FAUNA_SECRET_KEY)
 const client = new Client({
     secret: process.env.FAUNA_SECRET_KEY
 })

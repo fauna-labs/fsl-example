@@ -41,7 +41,7 @@ jobs:
       run: npm test
     
     - name: Reset Test Database
-      run: fauna delete --stack testd --dir=./cleanup/ --force
+      run: fauna schema push --stack testd --dir=./cleanup/ --force
 
       env:
         FAUNA_SHELL_SECRET_KEY: ${{ secrets.FAUNA_SHELL_SECRET_KEY }}

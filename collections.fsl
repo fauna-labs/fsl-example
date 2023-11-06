@@ -1,0 +1,3 @@
+collection People {
+    unique [.phone .email]
+}

@@ -1,0 +1,5 @@
+default=newstack
+
+[stack.newstack]
+endpoint=cloud-global
+database=FSL

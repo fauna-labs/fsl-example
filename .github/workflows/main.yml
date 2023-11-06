@@ -27,7 +27,7 @@ jobs:
       run : npm install -g fauna-shell@beta
     
     - name: Create .fauna-shell config
-      run: echo -e "default=cloud-global\n\n[endpoint.cloud-global]\nsecret=${{ secrets.FAUNA_SECRET_KEY }}" > ~/.fauna-shell
+      run: echo -e "default=cloud-global\n\n[endpoint.cloud-global]\nsecret=${{ secrets.FAUNA_SHELL_SECRET_KEY }}" > ~/.fauna-shell
 
     - name: Push schema to Test Database
       run: fauna schema push --stack testd --force
@@ -39,4 +39,5 @@ jobs:
       run: fauna delete --stack testd --dir=./cleanup/ --force
 
       env:
+        FAUNA_SHELL_SECRET_KEY: ${{ secrets.FAUNA_SHELL_SECRET_KEY }}
         FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}

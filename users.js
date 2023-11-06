@@ -1,12 +1,9 @@
 import 'dotenv/config'
-import { Client, fql } from 'fauna'
-const client = new Client({
-    secret: process.env.FAUNA_SECRET_KEY
-})
+import { fql } from 'fauna'
 
-const addUser = async (user) => {
+const addUser = async (user, db) => {
     try {
-        const result = await client.query(fql`
+        const result = await db.query(fql`
             User.create({
                 email: ${user.email},
                 phone: ${user.phone},
@@ -21,7 +18,7 @@ const addUser = async (user) => {
 
 const removeUser = async (id) => {
     try {
-        const result = await client.query(fql`
+        const result = await db.query(fql`
             User.byId(${id})?.delete()
         `)
         return result   
@@ -32,7 +29,7 @@ const removeUser = async (id) => {
 
 const getUserByEmail = async (email) => {
     try {
-        const result = await client.query(fql`
+        const result = await db.query(fql`
             User.byEmail(${email})
         `)
         return result   
@@ -43,7 +40,7 @@ const getUserByEmail = async (email) => {
 
 const updateUser = async (id, user) => {
     try {
-        const result = await client.query(fql`
+        const result = await db.query(fql`
             User.byId(${id})?.update({
                 email: ${user.email},
                 phone: ${user.phone},

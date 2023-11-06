@@ -7,8 +7,18 @@ const client = new Client({
     secret: process.env.FAUNA_SECRET_KEY
 })
 
+let testDb;
+
 beforeAll(async () => {
-    // Optionally, you can perform setup tasks here, such as creating necessary collections or indexes in your FaunaDB
+    const response = await client.query(fql`
+        Key.create({
+            role: 'server',
+            database: 'testd'
+        })
+    `)
+    testDb = new Client({
+        secret: response.data.secret
+    })
 });
 
 afterAll(async () => {
@@ -22,7 +32,7 @@ describe('User operations', () => {
             phone: '1234567890',
             address: '123 Test St'
         }
-        const result = await addUser(user);
+        const result = await addUser(user, testDb);
         expect(result).toBeDefined();
         // verify that the user was created
         const userByEmail = await client.query(fql`

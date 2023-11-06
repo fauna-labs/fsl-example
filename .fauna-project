@@ -1,5 +1,9 @@
-default=newstack
+default=testd
 
 [stack.newstack]
 endpoint=cloud-global
 database=FSL
+
+[stack.testd]
+endpoint=cloud-global
+database=FSL/testd

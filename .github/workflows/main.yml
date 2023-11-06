@@ -23,6 +23,12 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Install Fauna Shell 
+      run : npm install -g fauna-shell@beta
+
+    - name: Push schema to Test Database
+      run: fauna schema push --stack testd --force
+
     - name: Run tests
       run: npm test
       env:

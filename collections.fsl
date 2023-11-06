@@ -1,3 +1,7 @@
 collection User {
     unique [.phone .email]
+
+    index byEmail {
+        terms [.email]
+    }
 }

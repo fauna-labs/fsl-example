@@ -2,6 +2,9 @@ import 'dotenv/config'
 import { Client, fql } from 'fauna'
 import { addUser } from './users.js'
 
+
+console.log('Test =>', process.env.FAUNA_SECRET_KEY)
+
 // Initialize the Fauna client
 const client = new Client({
     secret: process.env.FAUNA_SECRET_KEY

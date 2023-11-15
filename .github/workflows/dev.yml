@@ -28,7 +28,7 @@ jobs:
       run: npm install  # Install npm dependencies specified in package.json
 
     - name: Install Fauna CLI
-      run : npm install -g fauna-shell@beta  # Install Fauna CLI globally with npm at beta version
+      run : npm install -g fauna-shell  # Install Fauna CLI globally with npm at beta version
 
     # Push the schema to a test database, potentially overwriting existing schema
     - name: Push schema to Test Database

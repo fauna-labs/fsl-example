@@ -1,47 +1,49 @@
-name: Main CI
-
+# Trigger the workflow on a push to the 'dev' branch
 on:
   push:
     branches: [ main ]
 
+# Define jobs to be run by the workflow
 jobs:
-  ci:
-    runs-on: ubuntu-latest
+  ci:  # This is the identifier for the job
+    runs-on: ubuntu-latest  # Specifies that the job should run on the latest Ubuntu runner
     env:
+      # Set an environment variable using a secret stored in the repository's secrets
       FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}
 
     strategy:
       matrix:
-        node-version: [18.x]  # You can define multiple Node.js versions if needed
+        node-version: [18.x] 
 
+    # Steps to be run as part of this job
     steps:
-    - uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v3  # Checks out the repository code
+
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v3  # Sets up the Node.js environment
       with:
-        node-version: ${{ matrix.node-version }}
-    
+        node-version: ${{ matrix.node-version }}  # Use the Node.js version from the strategy matrix
+
     - name: Install dependencies
-      run: npm install
+      run: npm install  # Install npm dependencies specified in package.json
 
-    - name: Install Fauna Shell 
-      run : npm install -g fauna-shell@beta
-    
-    - name: Create .fauna-shell config
-      run: echo -e "default=cloud-global\n\n[endpoint.cloud-global]\nsecret=${{ secrets.FAUNA_SHELL_SECRET_KEY }}" > ~/.fauna-shell
+    - name: Install Fauna CLI
+      run : npm install -g fauna-shell  # Install Fauna CLI globally with npm at beta version
 
+    # Push the schema to a test database, potentially overwriting existing schema
     - name: Push schema to Test Database
-      run: fauna schema push --environment testd --force
-
-    - name: Set environment variable
-      run: export FAUNA_SECRET_KEY=${{ secrets.FAUNA_SECRET_KEY }}
+      run: fauna schema push --force --secret $FAUNA_SECRET_KEY # Using the force flag will omit user confirmation input
+      env:
+        FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}
 
     - name: Run tests
-      run: npm test
-    
-    - name: Reset Test Database
-      run: fauna schema push --environment testd --dir=./cleanup/ --force
-
+      run: npm test  # Run tests using the npm test script
       env:
-        FAUNA_SHELL_SECRET_KEY: ${{ secrets.FAUNA_SHELL_SECRET_KEY }}
+        FAUNA_SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}
+
+    # Reset the test database by pushing a cleanup schema
+    - name: Reset Test Database
+      run: fauna schema push --dir=./cleanup/ --force --secret $FAUNA_SECRET_KEY
+      # An additional environment variable for this step
+      env:
+        FAUNA__SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}

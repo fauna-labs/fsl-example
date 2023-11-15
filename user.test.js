@@ -2,6 +2,9 @@ import 'dotenv/config'
 import { Client, fql } from 'fauna'
 import { addUser } from './users.js'
 
+
+console.log('Test =>', process.env.FAUNA_SECRET_KEY)
+
 // Initialize the Fauna client
 const client = new Client({
     secret: process.env.FAUNA_SECRET_KEY
@@ -10,15 +13,6 @@ const client = new Client({
 let testDb;
 
 beforeAll(async () => {
-    const response = await client.query(fql`
-        Key.create({
-            role: 'server',
-            database: 'testd'
-        })
-    `)
-    testDb = new Client({
-        secret: response.data.secret
-    })
 });
 
 afterAll(async () => {
@@ -32,7 +26,7 @@ describe('User operations', () => {
             phone: '1234567890',
             address: '123 Test St'
         }
-        const result = await addUser(user, testDb);
+        const result = await addUser(user, client);
         expect(result).toBeDefined();
         // verify that the user was created
         const userByEmail = await client.query(fql`

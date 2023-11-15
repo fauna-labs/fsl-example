@@ -43,7 +43,7 @@ jobs:
 
     # Reset the test database by pushing a cleanup schema
     - name: Reset Test Database
-      run: fauna schema push --dir=./cleanup/ --force –-secret $FAUNA_SECRET_KEY
+      run: fauna schema push --dir=./cleanup/ --force --secret $FAUNA_SECRET_KEY
       # An additional environment variable for this step
       env:
         FAUNA__SECRET_KEY: ${{ secrets.FAUNA_SECRET_KEY }}

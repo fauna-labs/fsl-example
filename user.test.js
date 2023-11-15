@@ -13,15 +13,6 @@ const client = new Client({
 let testDb;
 
 beforeAll(async () => {
-    const response = await client.query(fql`
-        Key.create({
-            role: 'server',
-            database: 'testd'
-        })
-    `)
-    testDb = new Client({
-        secret: response.data.secret
-    })
 });
 
 afterAll(async () => {
@@ -35,7 +26,7 @@ describe('User operations', () => {
             phone: '1234567890',
             address: '123 Test St'
         }
-        const result = await addUser(user, testDb);
+        const result = await addUser(user, client);
         expect(result).toBeDefined();
         // verify that the user was created
         const userByEmail = await client.query(fql`
